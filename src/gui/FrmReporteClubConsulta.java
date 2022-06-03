@@ -21,10 +21,6 @@ import javax.swing.border.TitledBorder;
 
 import entidad.Club;
 import model.ClubModel;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.swing.JRViewer;
-import util.GeneradorReporte;
 import util.JComboBoxBD;
 
 public class FrmReporteClubConsulta extends JFrame implements ItemListener {
@@ -127,23 +123,7 @@ public class FrmReporteClubConsulta extends JFrame implements ItemListener {
 			}
 		}
 
-		// 1 La data
-		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data);
 
-		// 2 El diseño del reporte
-		String file = "reporteClub_2.jasper";
-
-		// 3 Se genera el reporte
-		JasperPrint jasperPrint = GeneradorReporte.genera(file, dataSource, null);
-
-		// 4 Se muestra en el visor
-		JRViewer jRViewer = new JRViewer(jasperPrint);
-
-		// 5 Se añade el visor al panel
-		panelReporte.removeAll();
-		panelReporte.add(jRViewer);
-		panelReporte.repaint();
-		panelReporte.revalidate();
 
 	}
 }

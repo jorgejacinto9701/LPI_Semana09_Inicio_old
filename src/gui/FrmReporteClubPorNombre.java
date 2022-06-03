@@ -5,7 +5,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,15 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-
-import entidad.Club;
-import model.ClubModel;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.swing.JRViewer;
-import util.GeneradorReporte;
 
 public class FrmReporteClubPorNombre extends JFrame implements ActionListener {
 
@@ -38,6 +32,12 @@ public class FrmReporteClubPorNombre extends JFrame implements ActionListener {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -93,27 +93,7 @@ public class FrmReporteClubPorNombre extends JFrame implements ActionListener {
 		}
 	}
 	protected void do_btnFiltrar_actionPerformed(ActionEvent e) {
-		String filtro = txtFiltro.getText();
+
 		
-		ClubModel model = new ClubModel();
-		List<Club> data = model.consultaClubPorNombre(filtro);
-
-		// 1 La data
-		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data);
-
-		// 2 El diseño del reporte
-		String file = "ReporteClubPorNombre.jasper";
-
-		// 3 Se genera el reporte
-		JasperPrint jasperPrint = GeneradorReporte.genera(file, dataSource, null);
-
-		// 4 Se muestra en el visor
-		JRViewer jRViewer = new JRViewer(jasperPrint);
-
-		// 5 Se añade el visor al panel
-		panel.removeAll();
-		panel.add(jRViewer);
-		panel.repaint();
-		panel.revalidate();
 	}
 }

@@ -19,23 +19,31 @@ public class ClubModel {
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null; //Trae la data de la BD
-		
 		try {
 			con = MySqlDBConexion.getConexion();
-			String sql ="select * from club where nombre like ?";  
+			String sql ="SELECT d.*,g.nombre FROM Club d inner join Auspiciador g on d.idAuspiciador = g.idAuspiciador where d.nombre like ?";  
 			pstm = con.prepareStatement(sql);
-			pstm.setString(1, filtro+"%");
+			pstm.setString(1, filtro);
 			System.out.println("SQL-->" + pstm);
 			rs = pstm.executeQuery();
 			
-			Club objClub = null;
-			while(rs.next()) {
-				objClub = new Club();
-				objClub.setIdClub(rs.getInt(1));
-				objClub.setNombre(rs.getString(2));
-				objClub.setFechaCreacion(rs.getDate(3));
-				data.add(objClub);
+			Club c = null;
+			Auspiciador g = null;
+			while(rs.next()){
+				c = new Club();
+				c.setIdClub(rs.getInt(1));
+				c.setNombre(rs.getString(2));
+				c.setFechaCreacion(rs.getDate(3));
+				c.setPais(rs.getString(4));
+				
+				g = new Auspiciador();
+				g.setIdAuspiciador(rs.getInt(5));
+				g.setNombre(rs.getString(8));
+				
+				c.setAuspiciador(g);
+				data.add(c);
 			}
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -74,7 +82,7 @@ public class ClubModel {
 				
 				g = new Auspiciador();
 				g.setIdAuspiciador(rs.getInt(5));
-				g.setNombre(rs.getString(6));
+				g.setNombre(rs.getString(8));
 				
 				c.setAuspiciador(g);
 				data.add(c);
@@ -116,7 +124,7 @@ public class ClubModel {
 				
 				g = new Auspiciador();
 				g.setIdAuspiciador(rs.getInt(5));
-				g.setNombre(rs.getString(6));
+				g.setNombre(rs.getString(8));
 				
 				c.setAuspiciador(g);
 				data.add(c);
